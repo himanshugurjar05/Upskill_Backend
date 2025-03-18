@@ -1,5 +1,5 @@
 import express from 'express'
-import jwt from 'jsonwebtoken'
+// import jwt from 'jsonwebtoken'
 import 'dotenv/config';
 
 const adminmiddleware = express.Router();

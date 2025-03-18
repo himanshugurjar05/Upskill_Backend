@@ -5,11 +5,12 @@ import 'dotenv/config'
 
 //Mongo and authmiddleware import---------
 import ConnectDB from './config/dbconfig.js'
-import authmiddleware from './middleware/authomiddleware.js'
+import authmiddleware from './middleware/authmiddleware.js'
 
 //importRouter------------------------------
 import UserRouter from './routes/userroute.js'
 import CourseRouter from './routes/courserouter.js'
+import EnrollRouter from './routes/EnrollRoute.js'
 
 
 let app = express()
@@ -30,9 +31,10 @@ ConnectDB();
 app.get('/',(req, res)=>{
     res.json('wlc to Apis.........')
 })
-
+ 
 app.use('/api/user', UserRouter)
 app.use('/api/course',authmiddleware, CourseRouter)
+app.use('/api/Enroll', authmiddleware, EnrollRouter)
 // app.use('/api/course',CourseRouter)
 
 

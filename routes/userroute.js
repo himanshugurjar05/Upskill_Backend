@@ -4,7 +4,7 @@ import usercontroller from '../controller/usercontroller.js'
 
 let router = Router()
 
-router.get('/:id', usercontroller.getAllUser)
+router.get('/', usercontroller.getAllUser)
 router.get('/:id', usercontroller.getUserById)
 
 

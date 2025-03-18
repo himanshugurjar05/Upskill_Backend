@@ -26,13 +26,23 @@ const coursecontroller = {
 
     //create---------------------------------------
         async createCourses(req, res) {
+            let {name, poster, duration, price, description } = req.body;
+            
+            let newCourses = new Course({
+            name, 
+            poster, 
+            duration, 
+            price, 
+            description
+            })
+
         try{
-           let course = new Course(req.body);
-           await course.save();
-           res.json(course)
+        //  let course = new Course(req.body); 
+          let Savedcourse = await newCourses.save();
+           res.json(Savedcourse)
         }
         catch(err) {
-            res.status(500).json({message:err.message});
+            res.status(500).json({message:err.message});  //frontend ko ..
         }
     },
 
@@ -57,9 +67,7 @@ const coursecontroller = {
           res.status(500).json({message:err.message});
       }
   },
-
-
-    
+      
 }
 
 export default coursecontroller;

@@ -17,7 +17,7 @@ let EnrolledSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    
+     
 })
 
 export default mongoose.model('Enrolled', EnrolledSchema)
