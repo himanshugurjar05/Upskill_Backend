@@ -3,6 +3,34 @@ import bcrypt from 'bcrypt'
 import 'dotenv/config'
 import jwt from 'jsonwebtoken'
 
+//Google oauth
+// import passport from 'passport'
+// import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
+
+// passport.use(
+//     new GoogleStrategy(
+//       {
+//         clientID: process.env.GOOGLE_CLIENT_ID,
+//         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+//         callbackURL: "http://localhost:5500/user/auth/google/callback",
+//         passReqToCallback: true,
+//       },
+//       (accessToken, refreshToken, profile, done) => {
+//         return done(null, profile);
+//       }
+//     )
+//   );
+  
+//   // Serialize and Deserialize User
+//   passport.serializeUser((User, done) => {
+//     done(null, User);
+//   });
+//   passport.deserializeUser((User, done) => {
+//     done(null, User);
+//   });
+  
+
+
 const usercontroller = { //usercon object he
         //Byalluser------------
     async getAllUser(req,res) {

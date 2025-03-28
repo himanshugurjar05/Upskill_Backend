@@ -1,48 +1,51 @@
-import express from 'express'
-import cors from 'cors'
-import bodyParser from 'body-parser'
-import 'dotenv/config'
+import express from 'express';
+import session from 'express-session';  // ✅ Add session middleware
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import passport from 'passport';
+import 'dotenv/config';
+import './config/passport.js'; 
 
-//Mongo and authmiddleware import---------
-import ConnectDB from './config/dbconfig.js'
-import authmiddleware from './middleware/authmiddleware.js'
+// MongoDB and auth middleware imports
+import ConnectDB from './config/dbconfig.js';
+import authmiddleware from './middleware/authmiddleware.js';
 
-//importRouter------------------------------
-import UserRouter from './routes/userroute.js'
-import CourseRouter from './routes/courserouter.js'
-import EnrollRouter from './routes/EnrollRoute.js'
+// Import Routes
+import UserRouter from './routes/userroute.js';
+import CourseRouter from './routes/courserouter.js';
+import EnrollRouter from './routes/EnrollRoute.js';
 
+const app = express();
 
-let app = express()
-app.use(cors())
-app.use(bodyParser.json())
+// ✅ Add session middleware (Required for Passport)
+app.use(session({
+  secret: process.env.GOOGLE_CLIENT_SECRET,
+  resave: false,
+  saveUninitialized: true,
+}));
 
+// ✅ Initialize Passport
+app.use(passport.initialize());
+app.use(passport.session());
 
-// mongoconn-------------------------
-// mongoose.connect(process.env.MONGODB_URI).then(()=>{
-//     console.log('connectes to mongodb.....')
-// })
+app.use(cors());
+app.use(bodyParser.json());
+
+// Connect to MongoDB
 ConnectDB();
 
+// APIs
+app.get('/', (req, res) => {
+  res.json('Welcome to APIs.........');
+});
 
+// ✅ Ensure API route prefix is correct
+app.use('/api/user', UserRouter);
+app.use('/api/course', authmiddleware, CourseRouter);
+app.use('/api/Enroll', authmiddleware, EnrollRouter);
 
-
-//Apis------------------------------
-app.get('/',(req, res)=>{
-    res.json('wlc to Apis.........')
-})
- 
-app.use('/api/user', UserRouter)
-app.use('/api/course',authmiddleware, CourseRouter)
-app.use('/api/Enroll', authmiddleware, EnrollRouter)
-// app.use('/api/course',CourseRouter)
-
-
-
-
-
-
-//Listening--------------------------
-app.listen(process.env.PORT, ()=>{
-    console.log(`server is run on........${process.env.PORT}`)
-})
+// Start Server
+const PORT = process.env.PORT || 5500;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
